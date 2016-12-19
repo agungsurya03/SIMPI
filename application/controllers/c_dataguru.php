@@ -9,9 +9,14 @@ class C_dataguru extends CI_Controller {
 			'guru' => $this->e_dataGuru->getGuruAll() , 
 			);
 
-		$this->load->view('html_head');
+		$oto = array(
+			'otoritas' => $this->session->userdata('otoritas'), 
+			);
 		$this->load->view('header');
+		$this->load->view('v_menu', $oto);
+		$this->load->view('html_head');
 		$this->load->view('content/kepsek/v_daftar_guru', $data);
+		$this->load->view('footer');
 	}
 
 	public function buatDataGuru(){

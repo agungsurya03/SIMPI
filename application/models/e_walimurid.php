@@ -21,9 +21,9 @@ function setId_murid($id_murid) { $this->id_murid = $id_murid; }
 
 function setNama($nama) { $this->nama = $nama; }
 
-function setTempat_lhr($tempat_lhr) { $this->tempat_lhr = $tempat_lhr; }
+function setTempatLhr($tempat_lhr) { $this->tempat_lhr = $tempat_lhr; }
 
-function setTanggal_lhr($tanggal_lhr) { $this->tanggal_lhr = $tanggal_lhr; }
+function setTanggalLhr($tanggal_lhr) { $this->tanggal_lhr = $tanggal_lhr; }
 
 function setAgama($agama) { $this->agama = $agama; }
 
@@ -37,9 +37,9 @@ function setPenghasilan($penghasilan) { $this->penghasilan = $penghasilan; }
 
 function setKantor($kantor) { $this->kantor = $kantor; }
 
-function setWarga_negara($warga_negara) { $this->warga_negara = $warga_negara; }
+function setWargaNegara($warga_negara) { $this->warga_negara = $warga_negara; }
 
-function setJenis_wali($jenis_wali) { $this->jenis_wali = $jenis_wali; }
+function setJenisWali($jenis_wali) { $this->jenis_wali = $jenis_wali; }
 
 
 	public function get_all(){
@@ -50,7 +50,25 @@ function setJenis_wali($jenis_wali) { $this->jenis_wali = $jenis_wali; }
 		return $query->result();
 	}
 
-	public function getWaliMurid($id_murid, $jenis_wali){
+	public function getDataWaliMurid($id_wali_murid){
+		$this->db->select('*');
+		$this->db->where('id_wali_murid', $id_wali_murid);
+		$this->db->from('walimurid');
+
+		$query = $this->db->get();
+		return $query->row();
+	}
+
+	public function getWaliMurid($id_murid){
+		$this->db->select('*');
+		$this->db->from('walimurid');
+		$this->db->where('id_murid', $id_murid);
+
+		$query=$this->db->get();
+		return $query->result();
+	}
+
+	public function getWaliMuridJenis($id_murid, $jenis_wali){
 		$this->db->select('*');
 		$this->db->from('walimurid');
 		$this->db->where('id_murid', $id_murid);
@@ -60,16 +78,7 @@ function setJenis_wali($jenis_wali) { $this->jenis_wali = $jenis_wali; }
 		return $query->row();
 	}
 
-	public function getWaliMuridAll($id_murid){
-		$this->db->select('*');
-		$this->db->from('walimurid');
-		$this->db->where('id_murid', $id_murid);
-
-		$query=$this->db->get();
-		return $query->result();
-	}
-
-	public function insertDataWaliMurid($data){
+	public function insertDataWaliMurid(){
 		$data = array(
 			'id_murid' => $this->id_murid,
 			'nama' => $this->nama,
@@ -104,6 +113,24 @@ function setJenis_wali($jenis_wali) { $this->jenis_wali = $jenis_wali; }
 
 		$this->db->where('id_murid', $id_murid);
 		$this->db->where('jenis_wali', $jenis_wali);
+		$this->db->update('walimurid', $data);
+	}
+
+	public function updateWaliMurid($id_wali_murid){
+		$data = array(
+			'nama' => $this->nama,
+			'tempat_lhr' => $this->tempat_lhr,
+			'tanggal_lhr' => $this->tanggal_lhr,
+			'agama' => $this->agama,
+			'telp' => $this->telp,
+			'pendidikan' => $this->pendidikan,
+			'pekerjaan' => $this->pekerjaan,
+			'penghasilan' => $this->penghasilan,
+			'kantor' => $this->kantor,
+			'warga_negara' => $this->warga_negara,
+			);
+
+		$this->db->where('id_wali_murid', $id_wali_murid);
 		$this->db->update('walimurid', $data);
 	}
 	

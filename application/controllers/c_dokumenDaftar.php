@@ -48,35 +48,35 @@ class C_dokumenDaftar extends CI_Controller {
 		$this->load->view('content/wm/v_dokumen_murid', $data);
 	}
 
-	public function tambahDokumen($id_murid){
-		// $dokumen= $this->e_dokumenMurid->getDokumenAll($id_murid);
-
-		// redirect('c_dokumenDaftar/cekKategoriDokumen',$dokumen, 'refresh')
-	}
-
 	public function unggahDokumen(){
 		$id_murid = $this->session->userdata('id_murid');
         $jenis_dok = $this->input->post('jenis_dok');
 
-			$config['upload_path'] = './assets/img/';
-			$config['allowed_types'] = 'gif|jpg|png|jpeg';
-			$config['encrypt_name'] = TRUE;
-			$config['overwrite'] = FALSE;
+        $dok = $this->e_dokumenMurid->getDokumenAll($id_murid, $jenis_dok);
+        if ($dok) {
+        	$this->e_dokumenMurid->hapusDokumen($id_murid);
+        	unlink('./assets/img/'.$dok->path);
+        }
 
-			$this->load->library('upload', $config);
-			$this->upload->initialize($config);
-			$upload = $this->upload->do_upload('dokumen');	
-			$upload_data = $this->upload->data();
-			$file_name = $upload_data['file_name'];
+		$config['upload_path'] = './assets/img/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg';
+		$config['encrypt_name'] = TRUE;
+		$config['overwrite'] = FALSE;
+
+		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
+		$upload = $this->upload->do_upload('dokumen');	
+		$upload_data = $this->upload->data();
+		$file_name = $upload_data['file_name'];
 			
 
-			$this->e_murid->setId_murid($id_murid);
-			$this->e_murid->setJenisDokumen($jenis_dok);
-			$this->e_murid->setPath($file_name);
+		$this->e_dokumenMurid->setIdMurid($id_murid);
+		$this->e_dokumenMurid->setJenisDokumen($jenis_dok);
+		$this->e_dokumenMurid->setPath($file_name);
 
-			$this->e_dokumenMurid->insertDokumen();
+		$this->e_dokumenMurid->insertDokumen();
 
-			redirect('c_dokumenDaftar/lihatDokumen/'.$this->session->userdata('id_murid'),'refresh');
+		redirect('c_dokumenDaftar/lihatDokumen/'.$this->session->userdata('id_murid'),'refresh');
 
 	}
 }

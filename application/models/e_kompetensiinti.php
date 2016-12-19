@@ -83,7 +83,31 @@ function setStatus($status_terpakai) { $this->status_terpakai = $status_terpakai
 	}
 
 	public function getTahunAjaranNow(){
-		
+		$this->db->select('tahun_ajaran');
+		$this->db->from('kompetensiinti');
+		$this->db->limit(1);
+
+		$query = $this->db->get();
+		return $query->row()->tahun_ajaran;
+	}
+
+	public function getIdKI($tahun_ajaran){
+		$this->db->select('id_ki');
+		$this->db->where('tahun_ajaran', $tahun_ajaran);
+		$this->db->where('status_terpakai', 1);
+		$this->db->from('kompetensiinti');
+
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function updateKIAll($tahun_ajaran){
+		$data = array(
+			'status_terpakai' => $this->status_terpakai , 
+			);
+
+		$this->db->where('tahun_ajaran', $tahun_ajaran);
+		$this->db->update('kompetensiinti', $data);
 	}
 
 }

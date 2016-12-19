@@ -3,24 +3,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class E_verifmurid extends CI_Model {
 
+private $id_verif;
+private $id_murid;
+private $verif;
+private $keterangan;
+
+function setIdVerif($id_verif) { $this->id_verif = $id_verif; }
+
+function setIdMurid($id_murid) { $this->id_murid = $id_murid; }
+
+function setVerif($verif) { $this->verif = $verif; }
+
+function setKeterangan($keterangan) { $this->keterangan = $keterangan; }
+
+
 	public function getVerifMurid($id_murid){
 		$this->db->select('*');
 		$this->db->where('id_murid', $id_murid);
-		$this->db->where('jenis_verif', 1);
 		$this->db->from('verifmurid');
 
 		$query = $this->db->get();
-		return $query->row();
+		if ($query->row()) {
+			return $query->row();
+		}else{
+			return false;
+		}
 	}
 
-	public function getVerifKeuangan($id_murid){
-		$this->db->select('*');
-		$this->db->where('id_murid', $id_murid);
-		$this->db->where('jenis_verif', 2);
-		$this->db->from('verifmurid');
+	public function updateVerifMurid($id_murid){
+		$data = array(
+			'keterangan' => $this->keterangan ,
+			'verif' => $this->verif , 
+			);
 
-		$query = $this->db->get();
-		return $query->row();
+		$this->db->where('id_murid', $id_murid);
+		$this->db->update('verifmurid', $data);
+	}
+
+	public function insertVerifMurid(){
+		$data = array(
+			'id_murid' => $this->id_murid ,
+			'keterangan' => $this->keterangan ,
+			'verif' => $this->verif , 
+			);
+
+		$this->db->insert('verifmurid', $data);
 	}
 
 }

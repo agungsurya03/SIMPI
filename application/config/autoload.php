@@ -122,21 +122,7 @@ $autoload['model'] = array(
 	'e_verifmurid',
 	'e_verifdokumen',
 	'e_verifwali',
-	'e_otoritas',
-	'e_kompetensiinti',
-	'e_kompetensidasar',
-	'e_indikator',
-	'e_bidangpengembangan',
-	'e_tema',
-	'e_kelompokbelajar',
-	'e_subtema',
-	'e_hari',
-	'e_indisub',
-	'e_jeniskeg',
-	'e_detilhari',
-	'e_kelas',
-	'e_pembelajaran',
-	'e_alumni'
+	'e_otoritas'
 	);
 
 

@@ -46,12 +46,12 @@ class C_murid extends CI_Controller {
 	}
 
 	public function lihatDataMurid($id_murid){
-		$murid = $this->e_murid->getDataMurid($id_murid);
+		$murid = $this->e_murid->getMurid($id_murid);
 		return $murid;
 	}
 
 	public function gantiDataMurid($id_murid){
-		$murid = $this->e_murid->getDataMurid($id_murid);
+		$murid = $this->e_murid->getMurid($id_murid);
 
 		
 		$oto = array(
@@ -157,7 +157,7 @@ class C_murid extends CI_Controller {
 	}
 
 	public function lihatDataWaliMurid($id_murid){
-		return $this->e_walimurid->getWaliMuridAll($id_murid);
+		return $this->e_walimurid->getWaliMurid($id_murid);
 	}
 
 }

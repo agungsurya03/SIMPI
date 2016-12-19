@@ -38,6 +38,15 @@ function setStatusKelas($status_kelas) { $this->status_kelas = $status_kelas; }
 		return $query->result();
 	}
 
+	public function getKelas($tahun_ajaran){
+		$this->db->select('*');
+		$this->db->where('tahun_ajaran', $tahun_ajaran);
+		$this->db->from('kelas');
+
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	public function tambahKelas(){
 		$data = array(
 			'id_kel_belajar' => $this->id_kel_belajar ,
@@ -140,6 +149,20 @@ function setStatusKelas($status_kelas) { $this->status_kelas = $status_kelas; }
 
 		$query = $this->db->get();
 
+		return $query->result();
+	}
+
+	public function getDaftarMurid(){
+		$this->db->select('murid.id_murid, murid.nama_lengkap, kelas.kelas, kelompokbelajar.kel_belajar');
+		$this->db->from('kelas');
+		$this->db->join('pembelajaran', 'pembelajaran.id_kelas = kelas.id_kelas', 'left');
+		$this->db->join('murid', 'murid.id_murid = pembelajaran.id_murid', 'left');
+		$this->db->join('kelompokbelajar', 'kelompokbelajar.id_kel_belajar = kelas.id_kel_belajar', 'left');
+		$this->db->where('kelas.status_kelas !=', 0);
+		$this->db->where('murid.status', 10);
+		$this->db->order_by('murid.nama_lengkap', 'asc');
+
+		$query = $this->db->get();
 		return $query->result();
 	}
 }

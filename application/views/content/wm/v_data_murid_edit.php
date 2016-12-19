@@ -3,6 +3,35 @@
 <head>
 	<title></title>
 </head>
+
+<script type="text/javascript">
+     $(document).ready(function(){
+        $("#kesehatan").change(function(){
+           var value = $(this).val();
+            if(value==1)
+            {
+                $("#kesehatan_desk").show();
+            }
+            else 
+            {
+               $("#kesehatan_desk").hide();
+            }
+        });
+
+        $("#khusus").change(function(){
+           var value = $(this).val();
+            if(value==1)
+            {
+                $("#khusus_desk").show();
+            }
+            else 
+            {
+               $("#khusus_desk").hide();
+            }
+        });
+    });
+ </script>
+
 <body>
 <?php echo form_open('index.php/c_pendaftaran/perbaruiFormulir'); ?>
 <div class="container">
@@ -16,13 +45,13 @@
             <div id="home" class="tab-pane fade in active">
                 <center>
                     <h3>Biodata Murid</h3></center>
-                <?php echo form_open('index.php/c_pendaftaran/tambahDaftar'); ?>
                     <table style="margin:20px auto;">
                         <input type="hidden" name="id_murid" value="<?php echo $murid->id_murid ?>">
+                        <input type="hidden" name="status" value="<?php echo $murid->status ?>">
                         <tr>
                             <td>NIM</td>
                             <td>
-                                <input type="text" name="nim" value="<?php echo $murid->nim ?>">
+                                <input type="text" name="no_induk" value="<?php echo $murid->no_induk ?>">
                             </td>
                         </tr>
                         <tr>
@@ -86,13 +115,13 @@
                         <tr>
                             <td>Nomor Telpon</td>
                             <td>
-                                <input type="text" name="no_telpon" maxlength="40" value="<?php echo $murid->no_telpon ?>">
+                                <input type="text" name="telp" maxlength="40" value="<?php echo $murid->telp ?>">
                             </td>
                         </tr>
                         <tr>
                             <td>Jumlah Saudara</td>
                             <td>
-                                <input type="number" name="jml_saudara" min="1" value="<?php echo $murid->jml_saudara ?>">
+                                <input type="number" name="jumlah_saudara" min="1" value="<?php echo $murid->jumlah_saudara ?>">
                             </td>
                         </tr>
                         <tr>
@@ -104,7 +133,7 @@
                         <tr>
                             <td>Kewarganegaraan</td>
                             <td>
-                                <input type="text" name="kewarganegaraan" maxlength="20" value="<?php echo $murid->kewarganegaraan ?>">
+                                <input type="text" name="warga_negara" maxlength="20" value="<?php echo $murid->warga_negara ?>">
                             </td>
                         </tr>
                         <tr>
@@ -114,48 +143,112 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2"><b>Keadaan Anak Dalam Keluarga</b></td>
+                            <td>Apakah ada Kesehatan yang perlu diperhatikan secara khusus?</td>
+                            <td>
+                                <select name="kesehatan" id="kesehatan">
+                                <?php if ($murid->kesehatan == 1) { ?>
+                                    <option value="0">Tidak</option>
+                                    <option value="1" selected>Ya</option>
+                                <?php }else{ ?>
+                                    <option value="0" selected>Tidak</option>
+                                    <option value="1">Ya</option>
+                                <?php } ?>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
+                            <td colspan="2" id="kesehatan_desk" style="display: none">
+                                Kesehatan yang perlu di perhatikan secara khusus
+                                <br>
+                                <textarea name="kesehatan_desk" rows="10" cols="30"><?php echo $murid->kesehatan_desk ?></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Apakah ada permasalahan khusus yang perlu diperhatikan?</td>
                             <td>
-                                <textarea name="keterangan" value="<?php echo $murid->keterangan ?>"></textarea>
+                                <select name="khusus" id="khusus">
+                                    <?php if ($murid->khusus == 1) { ?>
+                                    <option value="0">Tidak</option>
+                                    <option value="1" selected>Ya</option>
+                                <?php }else{ ?>
+                                    <option value="0" selected>Tidak</option>
+                                    <option value="1">Ya</option>
+                                <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" id="khusus_desk" style="display: none">
+                                Permasalahan yang perlu di perhatikan secara khusus
+                                <br>
+                                <textarea name="khusus_desk" rows="10" cols="30"><?php echo $murid->khusus_desk ?></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                Kebiasaan / Kesenangan / Ketidaksenangan anak
+                                <br>
+                                <textarea name="kebiasaan" rows="10" cols="30"><?php echo $murid->kebiasaan; ?></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tinggal Bersama</td>
+                            <td>
+                            <?php
+                            if ($murid->tinggal == '1') {
+                            ?>
+                                <input type="radio" name="tinggal" value="1" checked> Keluarga Sendiri
+                                <br>
+                                <input type="radio" name="tinggal" value="2"> Keluarga Lain
+                                <br>
+                            <?php
+                            }else{
+                            ?>
+                                <input type="radio" name="tinggal" value="1" > Keluarga Sendiri
+                                <br>
+                                <input type="radio" name="tinggal" value="2" checked> Keluarga Lain
+                                <br>
+                            <?php
+                            }
+                            ?>
                             </td>
                         </tr>
                         <tr>
                             <td>Jumlah Penghuni Rumah</td>
                             <td>
-                                <input type="text" name="penghuni" value="<?php echo $murid->penghuni ?>">
+                                <input type="text" name="penghuni_dewasa" value="<?php echo $murid->penghuni_dewasa ?>"> Dewasa
+                                <input type="text" name="penghuni_sebaya" value="<?php echo $murid->penghuni_sebaya ?>"> Anak-anak
                             </td>
                         </tr>
                         <tr>
                             <td>Hubungan dengan Ayah</td>
                             <td>
                             <?php 
-                                if ($murid->hubungan_ayah == 'KE') {
+                                if ($murid->hub_ayah == 1) {
                                 ?>
-                                    <input type="radio" name="hubungan_ayah" value="KE" checked> Kurang Erat
+                                    <input type="radio" name="hub_ayah" value="1" checked> Kurang Erat
                                     <br>
-                                    <input type="radio" name="hubungan_ayah" value="CE"> Cukup Erat
+                                    <input type="radio" name="hub_ayah" value="2"> Cukup Erat
                                     <br>
-                                    <input type="radio" name="hubungan_ayah" value="SE"> Sangat Erat
+                                    <input type="radio" name="hub_ayah" value="3"> Sangat Erat
                                     <br>
                                 <?php
-                                }elseif ($murid->hubungan_ayah == 'CE') {
+                                }elseif ($murid->hub_ayah == 2) {
                                 ?>
-                                    <input type="radio" name="hubungan_ayah" value="KE"> Kurang Erat
+                                    <input type="radio" name="hub_ayah" value="1"> Kurang Erat
                                     <br>
-                                    <input type="radio" name="hubungan_ayah" value="CE" checked> Cukup Erat
+                                    <input type="radio" name="hub_ayah" value="2" checked> Cukup Erat
                                     <br>
-                                    <input type="radio" name="hubungan_ayah" value="SE"> Sangat Erat
+                                    <input type="radio" name="hub_ayah" value="3"> Sangat Erat
                                     <br>
                                 <?php
-                                }elseif ($murid->hubungan_ayah == 'SE') {
+                                }elseif ($murid->hub_ayah == 3) {
                                 ?>
-                                    <input type="radio" name="hubungan_ayah" value="KE"> Kurang Erat
+                                    <input type="radio" name="hub_ayah" value="1"> Kurang Erat
                                     <br>
-                                    <input type="radio" name="hubungan_ayah" value="CE"> Cukup Erat
+                                    <input type="radio" name="hub_ayah" value="2"> Cukup Erat
                                     <br>
-                                    <input type="radio" name="hubungan_ayah" value="SE" checked> Sangat Erat
+                                    <input type="radio" name="hub_ayah" value="3" checked> Sangat Erat
                                     <br>
                                 <?php
                                 }
@@ -166,31 +259,31 @@
                             <td>Hubungan dengan Ibu</td>
                             <td>
                             <?php 
-                                if ($murid->hubungan_ibu == 'KE') {
+                                if ($murid->hub_ibu == 1) {
                                 ?>
-                                    <input type="radio" name="hubungan_ibu" value="KE" checked> Kurang Erat
+                                    <input type="radio" name="hub_ibu" value="1" checked> Kurang Erat
                                     <br>
-                                    <input type="radio" name="hubungan_ibu" value="CE"> Cukup Erat
+                                    <input type="radio" name="hub_ibu" value="2"> Cukup Erat
                                     <br>
-                                    <input type="radio" name="hubungan_ibu" value="SE"> Sangat Erat
+                                    <input type="radio" name="hub_ibu" value="3"> Sangat Erat
                                     <br>
                                 <?php
-                                }elseif ($murid->hubungan_ibu == 'CE') {
+                                }elseif ($murid->hub_ibu == 2) {
                                 ?>
-                                    <input type="radio" name="hubungan_ibu" value="KE"> Kurang Erat
+                                    <input type="radio" name="hub_ibu" value="1"> Kurang Erat
                                     <br>
-                                    <input type="radio" name="hubungan_ibu" value="CE" checked> Cukup Erat
+                                    <input type="radio" name="hub_ibu" value="2" checked> Cukup Erat
                                     <br>
-                                    <input type="radio" name="hubungan_ibu" value="SE"> Sangat Erat
+                                    <input type="radio" name="hub_ibu" value="3"> Sangat Erat
                                     <br>
                                 <?php
-                                }elseif ($murid->hubungan_ibu == 'SE') {
+                                }elseif ($murid->hub_ibu == 3) {
                                 ?>
-                                    <input type="radio" name="hubungan_ibu" value="KE"> Kurang Erat
+                                    <input type="radio" name="hub_ibu" value="1"> Kurang Erat
                                     <br>
-                                    <input type="radio" name="hubungan_ibu" value="CE"> Cukup Erat
+                                    <input type="radio" name="hub_ibu" value="2"> Cukup Erat
                                     <br>
-                                    <input type="radio" name="hubungan_ibu" value="SE" checked> Sangat Erat
+                                    <input type="radio" name="hub_ibu" value="3" checked> Sangat Erat
                                     <br>
                                 <?php
                                 }
@@ -198,49 +291,49 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Pergaulan</td>
+                            <td>Pergaulan Sebaya</td>
                             <td>
                             <?php 
-                                if ($murid->pergaulan == 'SK') {
+                                if ($murid->pergaulan_sebaya == 1) {
                                 ?>
-                                    <input type="radio" name="pergaulan" value="SK" checked> Sangat Kurang
+                                    <input type="radio" name="pergaulan_sebaya" value="1" checked> Sangat Kurang
                                     <br>
-                                    <input type="radio" name="pergaulan" value="K"> Kurang
+                                    <input type="radio" name="pergaulan_sebaya" value="2"> Kurang
                                     <br>
-                                    <input type="radio" name="pergaulan" value="C"> Cukup
+                                    <input type="radio" name="pergaulan_sebaya" value="3"> Cukup
                                     <br>
-                                    <input type="radio" name="pergaulan" value="B"> Banyak
+                                    <input type="radio" name="pergaulan_sebaya" value="4"> Banyak
                                     <br>
                                 <?php
-                                }elseif ($murid->pergaulan == 'K') {
+                                }elseif ($murid->pergaulan_sebaya == 2) {
                                 ?>
-                                    <input type="radio" name="pergaulan" value="SK"> Sangat Kurang
+                                    <input type="radio" name="pergaulan_sebaya" value="1"> Sangat Kurang
                                     <br>
-                                    <input type="radio" name="pergaulan" value="K" checked> Kurang
+                                    <input type="radio" name="pergaulan_sebaya" value="2" checked> Kurang
                                     <br>
-                                    <input type="radio" name="pergaulan" value="C"> Cukup
+                                    <input type="radio" name="pergaulan_sebaya" value="3"> Cukup
                                     <br>
-                                    <input type="radio" name="pergaulan" value="B"> Banyak
+                                    <input type="radio" name="pergaulan_sebaya" value="4"> Banyak
                                 <?php
-                                }elseif ($murid->pergaulan == 'C') {
+                                }elseif ($murid->pergaulan_sebaya == 3) {
                                 ?>
-                                    <input type="radio" name="pergaulan" value="SK"> Sangat Kurang
+                                    <input type="radio" name="pergaulan_sebaya" value="1"> Sangat Kurang
                                     <br>
-                                    <input type="radio" name="pergaulan" value="K"> Kurang
+                                    <input type="radio" name="pergaulan_sebaya" value="2"> Kurang
                                     <br>
-                                    <input type="radio" name="pergaulan" value="C" checked> Cukup
+                                    <input type="radio" name="pergaulan_sebaya" value="3" checked> Cukup
                                     <br>
-                                    <input type="radio" name="pergaulan" value="B"> Banyak
+                                    <input type="radio" name="pergaulan_sebaya" value="4"> Banyak
                                 <?php
-                                }elseif ($murid->pergaulan == 'B') {
+                                }elseif ($murid->pergaulan_sebaya == 4) {
                                 ?>
-                                    <input type="radio" name="pergaulan" value="SK"> Sangat Kurang
+                                    <input type="radio" name="pergaulan_sebaya" value="1"> Sangat Kurang
                                     <br>
-                                    <input type="radio" name="pergaulan" value="K"> Kurang
+                                    <input type="radio" name="pergaulan_sebaya" value="2"> Kurang
                                     <br>
-                                    <input type="radio" name="pergaulan" value="C"> Cukup
+                                    <input type="radio" name="pergaulan_sebaya" value="3"> Cukup
                                     <br>
-                                    <input type="radio" name="pergaulan" value="B" checked> Banyak
+                                    <input type="radio" name="pergaulan_sebaya" value="4" checked> Banyak
                                 <?php
                                 }
                              ?>
@@ -249,21 +342,21 @@
                         <tr>
                             <td>Imunisasi</td>
                             <?php 
-                            if ($murid->imunisasi == 'L') {
+                            if ($murid->imunisasi == 1) {
                             ?>
                                 <td>
-                                <input type="radio" name="imunisasi" value="L" checked> Lengkap
+                                <input type="radio" name="imunisasi" value="1" checked> Lengkap
                                 <br>
-                                <input type="radio" name="imunisasi" value="B"> Belum Lengkap
+                                <input type="radio" name="imunisasi" value="0"> Belum Lengkap
                                 <br>
                                 </td>
                             <?php
                             }else{
                              ?>
                                 <td>
-                                <input type="radio" name="imunisasi" value="L"> Lengkap
+                                <input type="radio" name="imunisasi" value="1"> Lengkap
                                 <br>
-                                <input type="radio" name="imunisasi" value="B" checked> Belum Lengkap
+                                <input type="radio" name="imunisasi" value="0" checked> Belum Lengkap
                                 <br>
                                 </td>
                              <?php

@@ -3,6 +3,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class E_dokumenMurid extends CI_Model {
 
+private $id_dokumen;
+private $id_murid;
+private $jenis_dokumen;
+private $path;
+
+function setId_verif_dok($id_verif_dok) { $this->id_verif_dok = $id_verif_dok; }
+
+function setIdMurid($id_murid) { $this->id_murid = $id_murid; }
+
+function setJenisDokumen($jenis_dokumen) { $this->jenis_dokumen = $jenis_dokumen; }
+
+function setPath($path) { $this->path = $path; }
+
+
 	function getAll(){
 		$this->db->select('*');
 		$this->db->from('dokumenmurid');
@@ -17,7 +31,7 @@ class E_dokumenMurid extends CI_Model {
 		$this->db->where('id_murid', $id_murid);
 
 		$query = $this->db->get();
-		return $query->row();
+		return $query->result();
 	}
 
 	function getDokumenAll($id_murid, $jenis_dok){

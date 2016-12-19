@@ -33,6 +33,16 @@ function setStatus($status_terpakai) { $this->status_terpakai = $status_terpakai
 		}
 	}
 
+	public function getIdTema($tahun_ajaran){
+		$this->db->select('id_tema');
+		$this->db->where('tahun_ajaran', $tahun_ajaran);
+		$this->db->where('status_terpakai', 1);
+		$this->db->from('tema');
+
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	public function tambahTema(){
 		$data = array(
 			'tema' => $this->tema ,
@@ -120,6 +130,15 @@ function setStatus($status_terpakai) { $this->status_terpakai = $status_terpakai
 
 		$query = $this->db->get();
 		return $query->result();
+	}
+
+	public function updateTemaAll($tahun_ajaran){
+		$data = array(
+			'status_terpakai' => $this->status_terpakai, 
+			);
+
+		$this->db->where('tahun_ajaran', $tahun_ajaran);
+		$this->db->update('tema', $data);
 	}
 
 }

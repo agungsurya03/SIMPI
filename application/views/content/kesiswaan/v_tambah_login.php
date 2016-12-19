@@ -1,30 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-<?php echo form_open('index.php/c_loginwalimurid/tambahIdLogin'); ?>
-<table style="margin:20px auto;">
-			<tr>
-                <td>Username</td>
-                <td>
-                    <input type="text" name="username">
-                </td>
-            </tr>
-            <tr>
-                <td>Password</td>
-                <td>
-                    <input type="text" name="password">
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <input type="submit" value="Simpan">
-                </td>
-            </tr>
-        </table>
+<div class="col-md-10">
+<div class="container">
+
+<div class="col-md-12">
+<?php echo form_open('c_loginwalimurid/tambahIdLogin'); ?>
+<ul>
+    <li>
+        <label>Username<span class="required">*</span></label>
+        <input type="text" value="<?php echo $this->session->flashdata('username') ?>" name="username" required>
+    </li>
+    <li>
+        <label>Password<span class="required">*</span></label>
+        <input type="password" name="password" required>
+    </li>
+    <div>
+        <button id="" name="send" type="submit" class=""><span>Daftar</span></button>
+    </div>
+</ul>
 <?php echo form_close(); ?>
 </body>
 </html>

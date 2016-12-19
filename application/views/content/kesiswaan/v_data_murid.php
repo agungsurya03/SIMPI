@@ -415,9 +415,12 @@
 	                				<td><?php echo $row->warga_negara; ?></td>
 	                			</tr>
 	                		</table>
+	                		<?php echo anchor('c_walimurid/gantiDataWaliMurid/'.$row->id_wali_murid, 'Ganti Data'); ?>
 	                	</div>
                 	<?php } ?>
                 </div>
+
+
             </div>
         </div>
     </div>

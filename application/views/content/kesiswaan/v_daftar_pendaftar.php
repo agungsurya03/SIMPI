@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
+<div class="col-md-10">
+<div class="container">
+
+<div class="col-md-12">
+
+<table class="table table-striped">
+<tr>
+	<th>Nama Pendaftar</th>
+</tr>
 <?php foreach ($pendaftar as $row): ?>
-	<table>
 		<tr>
-			<td>Nama</td>
-			<td><?php echo anchor('c_verifpendaftaran/lihatDataPendaftar/'. $row->id_murid, $row->nama_panggilan); ?></td>
+			<td><?php echo anchor('c_verifpendaftaran/lihatDataPendaftar/'. $row->id_murid, $row->nama_lengkap); ?></td>
 		</tr>
-	</table>
 <?php endforeach ?>
-</body>
-</html>
+</table>
+</div>

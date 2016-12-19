@@ -17,7 +17,7 @@ class C_login extends CI_Controller {
 
 	public function login_proses(){
 		$username = $this->input->post('username');
-	    $password = $this->input->post('password');
+	    $password = md5($this->input->post('password'));
 	    
 	    $login_check_murid = $this->e_loginmurid->login($username, $password);
 	    $login_check_guru = $this->e_loginguru->login($username, $password);
@@ -26,7 +26,8 @@ class C_login extends CI_Controller {
 	        	$sess_array = array(
 				'id_login' => $login_check_murid->id_login,
 				'username' => $login_check_murid->username,
-				'id_murid' => $login_check_murid->id_murid
+				'id_murid' => $login_check_murid->id_murid,
+				'status' => $login_check_murid->status,
 				);
 				$this->session->set_userdata($sess_array);
 				redirect('c_pendaftaran/infoDaftar/'.$login_check_murid->id_murid,'refresh');

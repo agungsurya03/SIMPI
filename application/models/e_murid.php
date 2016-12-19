@@ -99,7 +99,7 @@ function setStatus($status) { $this->status = $status; }
 		return $query->result();
 	}
 
-	public function getDataMurid($id_murid){
+	public function getMurid($id_murid){
 		$this->db->select('*');
 		$this->db->where('id_murid', $id_murid);
 		$this->db->from('murid');
@@ -118,11 +118,10 @@ function setStatus($status) { $this->status = $status; }
 		return $query->row()->id_murid;
 	}
 
-	public function tambahNullMurid($data){
+	public function tambahNullMurid(){
 		$data = array(
-			'id_murid' => $this->id_murid, 
+			'no_induk' => NULL , 
 			);
-		
 		$this->db->insert('murid', $data);
 	}
 
@@ -153,6 +152,7 @@ function setStatus($status) { $this->status = $status; }
 			'hub_ibu' => $this->hub_ibu ,
 			'pergaulan_sebaya' => $this->pergaulan_sebaya ,
 			'imunisasi' => $this->imunisasi ,
+			'status' => $this->status ,
 			);
 
 		$this->db->where('id_murid', $id_murid);
@@ -167,22 +167,25 @@ function setStatus($status) { $this->status = $status; }
 		$this->db->where('id_murid', $id_murid);
 		$this->db->update('murid', $data);
 	}
+
+	public function updateMuridAll(){
+		$data = array(
+			'status' => $this->status , 
+			);
+
+		$this->db->where('status', 10);
+		$this->db->update('murid', $data);
+	}
 	
-	public function delete($id_murid){
+	public function deleteMurid($id_murid){
 		$this->db->where('id_murid', $id_murid);
 		$this->db->delete('murid');
-	}
-
-	public function setStatusMurid(){
-		return 4;
 	}
 
 	public function getPendaftarAll(){
 		$this->db->select('*');
 		$this->db->from('murid');
-		$this->db->where('status', 2);
-		$this->db->or_where('status', 3);
-		$this->db->or_where('status', 11);
+		$this->db->where('status', 11);
 
 		$query = $this->db->get();
 		return $query->result();
@@ -225,6 +228,21 @@ function setStatus($status) { $this->status = $status; }
 
 		$query = $this->db->get();
 		return $query->row();
+	}
+
+	public function getDataPendaftarAll(){
+		$this->db->select('*');
+		$this->db->from('murid');
+		$this->db->where('status', 2);
+		$this->db->where('status', 3);
+
+		$query = $this->db->get();
+		if ($query->result()) {
+			return $query->result();
+		}else{
+			return false;
+		}
+
 	}
 }
 

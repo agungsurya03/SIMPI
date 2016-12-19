@@ -15,12 +15,25 @@ class C_verifpendaftaran extends CI_Controller {
 			$data = array(
 				'pendaftar' => $this->e_murid->getPendaftarAll() 
 				);
+			$oto = array(
+				'otoritas' => $this->session->userdata('otoritas'), 
+				);
 			$this->load->view('header');
+			$this->load->view('v_menu', $oto);
+			$this->load->view('html_head');
 			$this->load->view('content/kesiswaan/v_daftar_pendaftar', $data);
+			$this->load->view('footer');
+			
 		} else{
 			$this->session->set_flashdata('warn', 'Belum ada yang mendaftar');
+			$oto = array(
+				'otoritas' => $this->session->userdata('otoritas'), 
+				);
 			$this->load->view('header');
-			$this->load->view('content/kesiswaan/v_menu_kesiswaan');
+			$this->load->view('v_menu', $oto);
+			$this->load->view('html_head');
+			$this->load->view('footer');
+			
 		}
 	}
 
@@ -39,36 +52,19 @@ class C_verifpendaftaran extends CI_Controller {
 			'murid' => $this->e_murid->getMurid($id_murid) ,
 			'walimurid' => $this->e_walimurid->getWaliMurid($id_murid) ,
 			'dokumen' => $this->e_dokumenMurid->getDokumenMurid($id_murid) , 
+			'vmurid' => $this->e_verifmurid->getVerifMurid($id_murid) , 
+			'vwalimurid' => $this->e_verifwali->getVerifWali($id_murid) , 
+			'vdokumen' => $this->e_verifdokumen->getVerifDok($id_murid) , 
 			);
 
-		$verif = $this-> cekVerif($id_murid);
-
-		if($verif){
-			$data['vmurid']	= $this->e_verifmurid->getVerifMurid($id_murid);
-			$data['vkeuangan']	= $this->e_verifmurid->getVerifKeuangan($id_murid);
-			$data['vwalimurid']	= $this->e_verifwali->getVerifWali($id_murid);
-			$data['vdokumen']	= $this->e_verifdokumen->getVerifDok($id_murid);
-
-			$array = array(
-				'verifikasi' => 'yes'
-			);
-			
-			$this->session->set_userdata( $array );
-
+			$oto = array(
+				'otoritas' => $this->session->userdata('otoritas'), 
+				);
 			$this->load->view('header');
+			$this->load->view('v_menu', $oto);
+			$this->load->view('html_head');
 			$this->load->view('content/kesiswaan/v_data_pendaftar', $data);
-		} else{
-			$this->session->set_flashdata('warn', 'Belum verifikasi');
-
-			$array = array(
-				'verifikasi' => 'no'
-			);
-			
-			$this->session->set_userdata( $array );
-
-			$this->load->view('header');
-			$this->load->view('content/kesiswaan/v_data_pendaftar', $data);
-		}
+			$this->load->view('footer');
 		
 	}
 
@@ -84,6 +80,47 @@ class C_verifpendaftaran extends CI_Controller {
 		else{
 			return false;
 		}
+	}
+
+	public function verifMurid(){
+		$this->e_verifmurid->setIdMurid($this->input->post('id_murid'));
+		$this->e_verifwali->setIdMurid($this->input->post('id_murid'));
+		$this->e_verifdokumen->setIdMurid($this->input->post('id_murid'));
+		$this->e_verifmurid->setKeterangan($this->input->post('keterangan_murid'));
+		$this->e_verifwali->setKeterangan($this->input->post('keterangan_wali'));
+		$this->e_verifdokumen->setKeterangan($this->input->post('keterangan_dok'));
+		$this->e_verifmurid->setVerif($this->input->post('verif_murid'));
+		$this->e_verifwali->setVerif($this->input->post('verif_wali'));
+		$this->e_verifdokumen->setVerif($this->input->post('verif_dok'));
+
+		if ($this->e_verifmurid->getVerifMurid($this->input->post('id_murid'))) {
+			$this->e_verifmurid->updateVerifMurid($this->input->post('id_murid'));
+		}else{
+			$this->e_verifmurid->insertVerifMurid();
+		}
+
+		if ($this->e_verifwali->getVerifWali($this->input->post('id_murid'))) {
+			$this->e_verifwali->updateVerifWali($this->input->post('id_murid'));
+		}else{
+			$this->e_verifwali->insertVerifWali();
+		}
+
+		if ($this->e_verifdokumen->getVerifDok($this->input->post('id_murid'))) {
+			$this->e_verifdokumen->updateVerifDokumen($this->input->post('id_murid'));
+		}else{
+			$this->e_verifdokumen->insertVerifDokumen();
+		}
+
+		if ($this->input->post('verif_murid') == 1 && $this->input->post('verif_wali') == 1 && $this->input->post('verif_dok') == 1) {
+			$this->e_murid->setStatus(11);
+			$this->e_murid->updateMurid($this->input->post('id_murid'));
+		}else{
+			$this->e_murid->setStatus(3);
+			$this->e_murid->updateMurid($this->input->post('id_murid'));
+		}
+
+		$this->session->set_flashdata('info', 'Data Sudah Dirubah');
+		redirect('c_verifpendaftaran/lihatPendaftar','refresh');
 	}
 
 }

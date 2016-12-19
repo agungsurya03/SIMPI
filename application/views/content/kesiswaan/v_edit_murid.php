@@ -6,6 +6,7 @@
 <body>
 <div class="col-md-10">
 	<div class="container">
+	<center><h3>Edit Data Murid</h3></center>
 		<?php echo form_open('c_murid/perbaruiDataMurid'); ?>
 			<div class="col-md-6">
 				<table>

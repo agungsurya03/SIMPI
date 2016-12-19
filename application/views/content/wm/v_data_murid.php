@@ -15,13 +15,11 @@ if ($this->session->userdata('id_data') == 2){ ?>
 elseif ($this->session->userdata('id_data') == 1){ ?>
 <?php
 echo "</br>";
-echo $murid->nim;
+echo $murid->no_induk;
 echo "</br>";
 echo $murid->nama_lengkap;
 echo "</br>";
 echo $murid->nama_panggilan;
-echo "</br>";
-echo $murid->keterangan;
 echo "</br>";
 echo $waliayah->nama;
 echo "</br>";
@@ -33,11 +31,15 @@ echo anchor('c_pendaftaran/gantiDaftar/'. $this->session->userdata('id_murid'), 
 echo "</br>";
 echo anchor('c_pendaftaran/konfirmasiBatal/', 'Batal');
 echo "</br>";
-echo anchor('c_pendaftaran/cekVerifikasi/'. $this->session->userdata('id_murid'), 'Cek Verifikasi');
-echo "</br>";
+if ($this->session->userdata('status') == 2 || $this->session->userdata('status') == 3 || $this->session->userdata('status') == 11) {
+	echo anchor('c_pendaftaran/cekVerifikasi/'. $this->session->userdata('id_murid'), 'Cek Verifikasi');
+	echo "</br>";
+}
 echo anchor('c_dokumenDaftar/lihatDokumen/'.$this->session->userdata('id_murid'), 'Lihat Dokumen');
 echo "</br>";
-echo anchor('c_feedback/lihatFeedback/'.$this->session->userdata('id_murid'), 'Lihat Feedback');;
+if ($this->session->userdata('status') == 5 || $this->session->userdata('status') == 7 || $this->session->userdata('status') == 10) {
+	echo anchor('c_feedback/lihatFeedback/'.$this->session->userdata('id_murid'), 'Lihat Feedback');
+}
 ?>
 <?php
 }
