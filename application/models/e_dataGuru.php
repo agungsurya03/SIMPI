@@ -41,7 +41,14 @@ function setStatusPNS($status_pns) { $this->status_pns = $status_pns; }
 		return $query->row();
 	}
 
-	public function tambahGuru($data){
+	public function tambahGuru(){
+		$data = array(
+			'nama_guru' => $this->nama_guru ,
+			'jenis_kelamin' => $this->jenis_kelamin ,
+			'tempat_lahir' => $this->tempat_lahir ,
+			'tanggal_lahir' => $this->tanggal_lahir ,
+			'status_pns' => $this->status_pns , 
+			);
 		$this->db->insert('dataguru', $data);
 	}
 
